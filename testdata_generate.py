@@ -49,28 +49,20 @@ class word:
 
 if __name__ == '__main__':
 	path = os.getcwd()
-	path = join(path , 'aclImdb')
+	path = join(path , 'dataset')
 	path = join(path , 'test')
-	print("getting unique words")
-	#get the unique words
-	unique_words = pickle.load(open('unique_words2.pickle ' , 'rb'))
 	print("getting total words")
 	#get the trained words
-	total_words = pickle.load(open('allWords2.pickle' , 'rb'))
+	total_words = pickle.load(open('allWords.pickle' , 'rb'))
 	#get the total_documents
 	print("getting total documents")
-	total_documents = pickle.load(open('allDocs2.pickle' , 'rb'))
+	total_documents = pickle.load(open('allDocs.pickle' , 'rb'))
 	#get the trained model
 	print("getting trained model")
 	trained_model = pickle.load(open('trainedSVM.sav' , 'rb'))
 
 	i = 0
-	for d in total_documents:
-		i+=1
-		if i<20000:
-			continue
-		if i>23000:
-			break 
+	for d in total_documents: 
 		temp_vector = []
 		for w in total_words:
 			if w in total_documents[d].words:

@@ -46,17 +46,13 @@ class word:
 
 
 if __name__ == '__main__':
-	docFile = 'allDocs2.pickle'
-	wordFile = 'allWords2.pickle'
+	docFile = 'allDocs.pickle'
+	wordFile = 'allWords.pickle'
 	print "reading pickle files"
 	total_docs = pickle.load(open(docFile , 'rb'))
 	total_words = pickle.load(open(wordFile , 'rb'))
 	print "Building Feature and prediction vectors"
-	i=0
 	for d in total_docs:
-		i+=1
-		if i>1500 and i<23500:
-			continue
 		temp_vector = []
 		for w in total_words:
 			if w in total_docs[d].words:
@@ -69,7 +65,7 @@ if __name__ == '__main__':
 
 	#apply svm and save the result
 	print "Training the dataset"
-	trainedSet = svm.SVC()
+	trainedSet = svm.LinearSVC()
 	trainedSet.fit(X_train , Y_train)
 	filename = 'trainedSVM.sav'
 	pickle.dump(trainedSet , open(filename , 'wb') , protocol=2)

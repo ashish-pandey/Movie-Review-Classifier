@@ -83,9 +83,6 @@ most
 mustn't
 my
 myself
-no
-nor
-not
 of
 off
 on
@@ -96,7 +93,7 @@ other
 ought
 our
 ours	
-	ourselves
+ourselves
 out
 over
 own
@@ -107,7 +104,6 @@ she'd
 she'll
 she's
 should
-shouldn't
 so
 some
 such

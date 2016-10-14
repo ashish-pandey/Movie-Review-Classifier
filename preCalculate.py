@@ -68,8 +68,8 @@ def readAndProcess(path , polVal , pol):
 			w = stemmer.stem(w)
 			w = str(w).lower()
 			w = w.strip(' ')
-			if w not in wordDict:
-				continue
+			#if w not in wordDict:
+			#	continue
 			if len(w)<3:
 				continue
 			if w in stopwords:
@@ -102,21 +102,21 @@ def readAndProcess(path , polVal , pol):
 
 
 def calculateSW1(w):
-	t1 = 12500
-	t2 = 12500
+	t1 = 1000
+	t2 = 1000
 	pols = total_words[w].orList
 	ak = pols[0]
 	bk = pols[1]
 	if bk==0:
-		tmp1 = 8
+		tmp1 = 6
 	else:
-		tmp1 = float((12500-bk)*ak)
-		tmp1 = tmp1/((12500-ak)*bk)
+		tmp1 = float((1000-bk)*ak)
+		tmp1 = tmp1/((1000-ak)*bk)
 	if ak==0:
-		tmp2 = 8
+		tmp2 = 6
 	else:
-		tmp2 = float((12500-ak)*bk)
-		tmp2 = tmp2/((12500-bk)*ak)
+		tmp2 = float((1000-ak)*bk)
+		tmp2 = tmp2/((1000-bk)*ak)
 	print(ak , bk , tmp1 , tmp2)
 	if tmp1==0.0:
 		tmp1 = 1  #so that log makes it zero
@@ -148,12 +148,10 @@ if __name__ =='__main__':
 		line = line.replace('\n' , '')
 		stopwords[line] = True
 
-	wordDict = pickle.load(open('unique_words.pickle' , 'rb'))
+	#wordDict = pickle.load(open('unique_words.pickle' , 'rb'))
 	#read the documents
 	path = os.getcwd()
-	path = join(path , 'aclImdb')
-	path = join(path , 'train')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        	#preprocess the pos reviews first
+	path = join(path , 'dataset')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        	#preprocess the pos reviews first
 	readAndProcess(path , 'pos' , 1)
 	#preprocess the neg reviews
 	readAndProcess(path , 'neg' , 0)
@@ -162,10 +160,10 @@ if __name__ =='__main__':
 	calculate_WWS()
  	print(len(wordMap) , len(total_documents) , uq_id)
  	print "words"
- 	wordFile = 'allWords2.pickle'
+ 	wordFile = 'allWords.pickle'
  	pickle.dump(total_words, open(wordFile, 'wb'))
  	print "documents"
- 	docFile = 'allDocs2.pickle'
+ 	docFile = 'allDocs.pickle'
  	pickle.dump(total_documents , open(docFile , 'wb'))
 	#for w in total_words:
 	#	print total_words[w].value
