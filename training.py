@@ -1,10 +1,15 @@
 import pickle
+from sklearn.cross_validation import train_test_split
 from sklearn import svm
 
 X_train = []
 Y_train = []
 total_docs = {}
 total_words = {}
+trainx = []
+trainy = []
+testx = []
+testy = []
 #temp_vector = []*8*13157
 
 class document:
@@ -36,7 +41,7 @@ class word:
 		self.id = self_id
 		self.value = value
 		self.documents = {}
-		self.sw = {}
+		self.sw = []
 		self.ww = {}
 		self.wws = {}
 		self.freq = []
@@ -52,6 +57,7 @@ if __name__ == '__main__':
 	total_docs = pickle.load(open(docFile , 'rb'))
 	total_words = pickle.load(open(wordFile , 'rb'))
 	print "Building Feature and prediction vectors"
+	print(len(total_words))
 	for d in total_docs:
 		temp_vector = []
 		for w in total_words:
@@ -63,10 +69,13 @@ if __name__ == '__main__':
 		X_train.append(temp_vector)
 		Y_train.append(total_docs[d].pol)
 
+	trainx , testx , trainy , testy = train_test_split(X_train, Y_train, test_size=0.1, random_state=43)
 	#apply svm and save the result
 	print "Training the dataset"
 	trainedSet = svm.LinearSVC()
-	trainedSet.fit(X_train , Y_train)
+	trainedSet.fit(trainx , trainy)
+	accuracy = trainedSet.score(testx , testy)
+	print accuracy
 	filename = 'trainedSVM.sav'
 	pickle.dump(trainedSet , open(filename , 'wb') , protocol=2)
 	

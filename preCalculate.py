@@ -35,7 +35,7 @@ class word:
 		self.id = self_id
 		self.value = value
 		self.documents = {} #contains documents and word weighting
-		self.sw = {} #contains sentiment weighting
+		self.sw = [] #contains sentiment weighting
 		self.wws = {} #contains the final weight of rhis word in each document
 		self.freq = []
 		self.freq.append(0)
@@ -65,7 +65,6 @@ def readAndProcess(path , polVal , pol):
 		docList = {}
 
 		for w in temp_words:
-			w = stemmer.stem(w)
 			w = str(w).lower()
 			w = w.strip(' ')
 			#if w not in wordDict:
@@ -74,6 +73,10 @@ def readAndProcess(path , polVal , pol):
 				continue
 			if w in stopwords:
 				continue
+			if w.endswith(r"n't"):
+				print w
+				w = "not"
+			w = stemmer.stem(w)
 			if w not in wordMap:
 				wrd = word(uq_id , w)
 				uq_id += 1
@@ -117,7 +120,7 @@ def calculateSW1(w):
 	else:
 		tmp2 = float((1000-ak)*bk)
 		tmp2 = tmp2/((1000-bk)*ak)
-	print(ak , bk , tmp1 , tmp2)
+	#print(ak , bk , tmp1 , tmp2)
 	if tmp1==0.0:
 		tmp1 = 1  #so that log makes it zero
 	if tmp2 == 0.0:
@@ -137,7 +140,7 @@ def calculate_WWS():
 		for d in wrd.documents:
 			ww1 = total_documents[d].words[w]
 			ww2 = wrd.documents[d]
-			wrd.sw[d] = [sw1 , sw2]
+			wrd.sw = [sw1 , sw2]
 			wrd.wws[d] = [ww1*sw1 , ww2*sw1 , ww1*sw2 , ww2*sw2]
 
 
