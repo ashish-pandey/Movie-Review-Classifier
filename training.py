@@ -1,6 +1,13 @@
 import pickle
+import warnings
 from sklearn.cross_validation import train_test_split
 from sklearn import svm
+
+def warn(*args , **kwargs):
+	pass
+
+warnings.warn = warn
+
 
 X_train = []
 Y_train = []
@@ -71,11 +78,12 @@ if __name__ == '__main__':
 
 	trainx , testx , trainy , testy = train_test_split(X_train, Y_train, test_size=0.1, random_state=43)
 	#apply svm and save the result
-	print "Training the dataset"
+	print("Training the dataset.....")
 	trainedSet = svm.LinearSVC()
 	trainedSet.fit(trainx , trainy)
 	accuracy = trainedSet.score(testx , testy)
-	print accuracy
+	print("Acuuracy of the model on the sampled data:"  , accuracy)
+	print("Saving the Trained model......")
 	filename = 'trainedSVM.sav'
 	pickle.dump(trainedSet , open(filename , 'wb') , protocol=2)
 	

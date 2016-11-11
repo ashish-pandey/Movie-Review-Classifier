@@ -1,7 +1,13 @@
-import os                                                                                                          
+import os   
+import warnings                                                                                                       
 from os.path import isfile , join
 import re
 import pickle
+
+def warn(*args , **kwargs):
+	pass
+
+warnings.warn = warn
 
 total_words = {}
 test_documents = {}

@@ -1,0 +1,4 @@
+corpus --> sentiwordnet
+corpus --> wordnet
+models --> averaged_perceptron_tagger
+models --> punkt

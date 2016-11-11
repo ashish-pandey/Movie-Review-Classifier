@@ -1,9 +1,16 @@
-import os                                                                                                          
+import os          
+import warnings                                                                                                
 from os.path import isfile , join
 import re
 import pickle
 from math import log
 from nltk.stem.snowball import SnowballStemmer
+
+
+def warn(*args , **kwargs):
+	pass
+
+warnings.warn = warn
 
 test_documents = {}
 total_words = {}
