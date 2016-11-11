@@ -1,7 +1,7 @@
 import sys
 from textblob import TextBlob
 
-text = "I love to wait forever"
+text = "I liked the movie"
 
 sentiNetFile = open("sentiWordHelp.txt", "r")
 positiveFile = open("positivePhrase.txt", 'r')
@@ -144,28 +144,44 @@ positiveEncounter = False
 negativeEncounter = False
 phraseForWord = []
 for t in text.tags:
-	if t[0] in posSen.keys():
+	if t[0] in sentiWordHelp and sentiWordHelp[t[0]] == 1:
 		positiveEncounter = True
-		for phrase in phrasesInText:
-			wordsInPhrase = phrase.split(" ")
-			for word in wordsInPhrase:
-				if word == t[0]:
-					phraseForWord.append(phrase)
+		print("Found in positive sentiment file" , t[0])
+		continue
+
+	if positiveEncounter==True:
+		for k in negativePhrases:
+			tempwords = k.split(" ")
+			for wrd in tempwords:
+				if wrd==t[0]:
+					sarcasmFlag = True
 					break
-		for phrase in phraseForWord:
-			if phrase in negativePhrases.keys():
-				sarcasmFlag = True
-	if t[0] in negSen.keys():
+
+			if sarcasmFlag==True:
+				break
+
+		if sarcasmFlag == True:
+			break
+
+	if t[0] in sentiWordHelp and sentiWordHelp[t[0]] == -1:
+		print("Found in negative sentiment file" , t[0])
 		negativeEncounter = True
-		for phrase in phrasesInText:
-			wordsInPhrase = phrase.split(" ")
-			for word in wordsInPhrase:
-				if word == t[0]:
-					phraseForWord.append(phrase)
+		continue
+
+	if negativeEncounter == True:
+		for k in positivePhrases:
+			tempwords = k.split(" ")
+			for wrd in tempwords:
+				if wrd == t[0]:
+					sarcasmFlag = True
 					break
-		for phrase in phraseForWord:
-			if phrase in positivePhrases.keys():
-				sarcasmFlag = True
+
+			if sarcasmFlag == True:
+				break
+
+		if sarcasmFlag == True:
+			break
+
 
 if sarcasmFlag == True:
 	print("Sarcasm detected bitch")
