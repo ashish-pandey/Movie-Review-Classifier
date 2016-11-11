@@ -96,21 +96,21 @@ for t in text.tags:
 			senWords.append(current_word)
 			WordTags.append(current_tag)
 
-for i in range(0, len(senWords)-1):
+for i in range(0, len(senWords)):
 	if senWords[i] in sentiWordHelp.keys():
 		sentimentScore = sentimentScore + sentiWordHelp[senWords[i]]
 
 #single word phrase extraction
-for i in range(0, len(senWords)-1):
+for i in range(0, len(senWords)):
 	if (WordTags[i][:1] == "V"):
 		phrasesInText.append(senWords[i])
 #bigram phrase extraction
-for i in range(0, len(senWords)-2):
+for i in range(0, len(senWords)-1):
 	phrase = senWords[i] + " " + senWords[i+1]
 	if (WordTags[i][:1] == "V" and WordTags[i+1][:2] == "RB") or (WordTags[i][:1] == "V" and WordTags[i+1][:1] == "N") or (WordTags[i][:1] == "J" and WordTags[i+1][:1] == "V") or(WordTags[i][:2] == "RB" and WordTags[i+1][:1] == "V"):
 		phrasesInText.append(phrase)
 #trigram phrase extraction
-for i in range(0, len(senWords)-3):
+for i in range(0, len(senWords)-2):
 	phrase = senWords[i] + " " + senWords[i+1] + senWords[i+2]
 	if (WordTags[i][:1] == "V" and WordTags[i][:2] == "RB" and WordTags[i+2][:1] == "J") or (WordTags[i][:1] == "V" and WordTags[i][:1] == "J" and WordTags[i+2][:1] == "N") or (WordTags[i][:1] == "J" and WordTags[i][:2] == "RB" and WordTags[i+2][:1] == "N"):
 		phrasesInText.append(phrase)
