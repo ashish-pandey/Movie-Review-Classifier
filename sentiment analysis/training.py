@@ -82,7 +82,49 @@ if __name__ == '__main__':
 	trainedSet = svm.LinearSVC()
 	trainedSet.fit(trainx , trainy)
 	accuracy = trainedSet.score(testx , testy)
-	print("Acuuracy of the model on the sampled data:"  , accuracy)
+	print("Acuuracy of the model on the sampled data: %s"   %(accuracy))
+	outputs = trainedSet.predict(testx);
+	# we calculate the precion and recall for both the positive and negative
+	# precision means if it says 
+	# if our objective is to find positive reviews then:
+	#		True positve = positive items that were identified as positive
+	#		True negative = negative items that were identified as negative
+	#		False positive = negative items that were identified as positive
+	#		False negative = positive items that were classified as negative
+	p = 0
+	TP = {}
+	TN = {}
+	FP = {}
+	FN = {}
+	TP['pos'] = TP['neg'] = 0
+	TN['pos'] = TN['neg'] = 0
+	FP['pos'] = FP['neg'] = 0
+	FN['pos'] = FN['neg'] = 0
+	for i in outputs:
+		if i == testy[p]:
+			if i==1:
+				TP['pos'] +=1
+				TN['neg'] +=1
+			else:
+				TP['neg'] +=1
+				TN['pos'] +=1
+		else:
+			if testy[p] == 1:
+				FN['pos'] +=1
+				FP['neg'] +=1
+			else:
+				FP['pos'] +=1
+				FN['neg'] +=1
+		p +=1
+
+	pos_precision = float(TP['pos'])/(TP['pos'] + FP['pos'])
+	neg_precision = float(TP['neg'])/(TP['neg'] + FP['neg'])
+	pos_recall = float(TP['pos'])/(TP['pos'] + FN['pos'])
+	neg_recall = float(TP['neg'])/(TP['neg'] + FN['neg'])
+	pos_fscore = (2*pos_recall*pos_precision)/(pos_precision+pos_recall)
+	neg_fcore = (2*neg_recall*neg_precision)/(neg_precision + neg_recall)
+	print("Positive:- Precision : %s , recall : %s and f-score : %s" %(pos_precision , pos_recall ,  pos_fscore))
+	print("Negative:- Precision : %s , recall : %s and f-score : %s" %(neg_precision , neg_recall ,neg_fcore))
 	print("Saving the Trained model......")
 	filename = 'trainedSVM.sav'
 	pickle.dump(trainedSet , open(filename , 'wb') , protocol=2)
